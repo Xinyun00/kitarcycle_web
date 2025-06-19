@@ -1,18 +1,20 @@
 services:
-  # Your Laravel Web Service
+  # ---------------------------------
+  #  Your Laravel Web Service
+  #  (This part is likely correct, but ensure the 'name' under fromService matches the db below)
+  # ---------------------------------
   - type: web
-    name: kitarcycle-web # You can change this name
+    name: kitarcycle-web
     env: docker
-    repo: https://github.com/Xinyun00/kitarcycle_web.git
-    branch: main
-    region: singapore # Or your preferred region
-    plan: free # Note: Free plan instances spin down after inactivity
+    repo: https://github.com/Xinyun00/kitarcycle_web.git # MAKE SURE THIS IS CORRECT
+    region: singapore
+    plan: free
     healthCheckPath: /
     envVars:
       - key: APP_URL
         value: https://${RENDER_EXTERNAL_URL}
       - key: APP_KEY
-        generateValue: true # Render will generate a secure key
+        generateValue: true
       - key: APP_ENV
         value: production
       - key: APP_DEBUG
@@ -24,33 +26,35 @@ services:
       - key: DB_HOST
         fromService:
           type: pserv
-          name: kitarcycle-db
+          name: kitarcycle-db # MUST MATCH the name of the database service below
           property: host
       - key: DB_PORT
         fromService:
           type: pserv
-          name: kitarcycle-db
+          name: kitarcycle-db # MUST MATCH the name of the database service below
           property: port
       - key: DB_DATABASE
         fromService:
           type: pserv
-          name: kitarcycle-db
+          name: kitarcycle-db # MUST MATCH the name of the database service below
           property: database
       - key: DB_USERNAME
         fromService:
           type: pserv
-          name: kitarcycle-db
+          name: kitarcycle-db # MUST MATCH the name of the database service below
           property: user
       - key: DB_PASSWORD
         fromService:
           type: pserv
-          name: kitarcycle-db
+          name: kitarcycle-db # MUST MATCH the name of the database service below
           property: password
 
-  # Your PostgreSQL Database Service
-  - type: pserv # 'pserv' is the correct type for a PostgreSQL service
-    name: kitarcycle-db # Use this name in the envVars above
-    region: singapore # Match the region of your web service
-    plan: free # Free tier for PostgreSQL
+  # ---------------------------------
+  #  Your PostgreSQL Database Service (THE FIX IS HERE)
+  # ---------------------------------
+  - type: pserv  # Use 'pserv' for a managed PostgreSQL Service
+    name: your-database-name # Give your database a name
+    region: singapore
+    plan: free
     image:
-      url: 'postgres:14' # Specify a version
+      url: 'postgres:14' # Specify the version using the image url
