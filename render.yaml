@@ -2,7 +2,7 @@ services:
   - type: web
     name: my-laravel-app
     env: docker
-    repo: https://github.com/your-username/your-laravel-repo.git # Replace with your repo URL
+    repo: https://github.com/Xinyun00/kitarcycle_web.git # Replace with your repo URL
     region: singapore # Choose a region close to you
     plan: free # Or your desired plan
     healthCheckPath: /
