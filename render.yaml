@@ -1,60 +1,111 @@
+# Exported from Render on 2025-06-19T17:13:38Z
 services:
-  # ---------------------------------
-  #  Your Laravel Web Service
-  #  (This part is likely correct, but ensure the 'name' under fromService matches the db below)
-  # ---------------------------------
-  - type: web
-    name: kitarcycle-web
-    env: docker
-    repo: https://github.com/Xinyun00/kitarcycle_web.git # MAKE SURE THIS IS CORRECT
-    region: singapore
-    plan: free
-    healthCheckPath: /
-    envVars:
-      - key: APP_URL
-        value: https://${RENDER_EXTERNAL_URL}
-      - key: APP_KEY
-        generateValue: true
-      - key: APP_ENV
-        value: production
-      - key: APP_DEBUG
-        value: false
-      - key: LOG_CHANNEL
-        value: stderr
-      - key: DB_CONNECTION
-        value: pgsql
-      - key: DB_HOST
-        fromService:
-          type: pserv
-          name: kitarcycle-db # MUST MATCH the name of the database service below
-          property: host
-      - key: DB_PORT
-        fromService:
-          type: pserv
-          name: kitarcycle-db # MUST MATCH the name of the database service below
-          property: port
-      - key: DB_DATABASE
-        fromService:
-          type: pserv
-          name: kitarcycle-db # MUST MATCH the name of the database service below
-          property: database
-      - key: DB_USERNAME
-        fromService:
-          type: pserv
-          name: kitarcycle-db # MUST MATCH the name of the database service below
-          property: user
-      - key: DB_PASSWORD
-        fromService:
-          type: pserv
-          name: kitarcycle-db # MUST MATCH the name of the database service below
-          property: password
-
-  # ---------------------------------
-  #  Your PostgreSQL Database Service (THE FIX IS HERE)
-  # ---------------------------------
-  - type: pserv  # Use 'pserv' for a managed PostgreSQL Service
-    name: your-database-name # Give your database a name
-    region: singapore
-    plan: free
-    image:
-      url: 'postgres:14' # Specify the version using the image url
+- type: web
+  name: kitarcycle_web
+  runtime: docker
+  repo: https://github.com/Xinyun00/kitarcycle_web
+  plan: free
+  envVars:
+  - key: VITE_APP_NAME
+    sync: false
+  - key: AWS_USE_PATH_STYLE_ENDPOINT
+    sync: false
+  - key: AWS_BUCKET
+    sync: false
+  - key: AWS_DEFAULT_REGION
+    sync: false
+  - key: AWS_SECRET_ACCESS_KEY
+    sync: false
+  - key: AWS_ACCESS_KEY_ID
+    sync: false
+  - key: MAIL_FROM_NAME
+    sync: false
+  - key: MAIL_FROM_ADDRESS
+    sync: false
+  - key: MAIL_PASSWORD
+    sync: false
+  - key: MAIL_USERNAME
+    sync: false
+  - key: MAIL_PORT
+    sync: false
+  - key: MAIL_HOST
+    sync: false
+  - key: MAIL_SCHEME
+    sync: false
+  - key: MAIL_MAILER
+    sync: false
+  - key: REDIS_PORT
+    sync: false
+  - key: REDIS_PASSWORD
+    sync: false
+  - key: REDIS_HOST
+    sync: false
+  - key: REDIS_CLIENT
+    sync: false
+  - key: MEMCACHED_HOST
+    sync: false
+  - key: CACHE_STORE
+    sync: false
+  - key: QUEUE_CONNECTION
+    sync: false
+  - key: FILESYSTEM_DISK
+    sync: false
+  - key: BROADCAST_CONNECTION
+    sync: false
+  - key: SESSION_DOMAIN
+    sync: false
+  - key: SESSION_PATH
+    sync: false
+  - key: SESSION_ENCRYPT
+    sync: false
+  - key: SESSION_LIFETIME
+    sync: false
+  - key: SESSION_DRIVER
+    sync: false
+  - key: DB_PASSWORD
+    sync: false
+  - key: DB_USERNAME
+    sync: false
+  - key: DB_DATABASE
+    sync: false
+  - key: DB_PORT
+    sync: false
+  - key: DB_HOST
+    sync: false
+  - key: DB_CONNECTION
+    sync: false
+  - key: LOG_LEVEL
+    sync: false
+  - key: LOG_DEPRECATIONS_CHANNEL
+    sync: false
+  - key: LOG_STACK
+    sync: false
+  - key: LOG_CHANNEL
+    sync: false
+  - key: BCRYPT_ROUNDS
+    sync: false
+  - key: PHP_CLI_SERVER_WORKERS
+    sync: false
+  - key: APP_MAINTENANCE_DRIVER
+    sync: false
+  - key: APP_FAKER_LOCALE
+    sync: false
+  - key: APP_FALLBACK_LOCALE
+    sync: false
+  - key: APP_LOCALE
+    sync: false
+  - key: APP_URL
+    sync: false
+  - key: APP_DEBUG
+    sync: false
+  - key: APP_KEY
+    sync: false
+  - key: APP_ENV
+    sync: false
+  - key: APP_NAME
+    sync: false
+  region: oregon
+  dockerContext: .
+  dockerfilePath: ./Dockerfile
+  autoDeployTrigger: commit
+version: "1"
