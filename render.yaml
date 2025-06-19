@@ -1,50 +1,55 @@
 services:
+  # Your Laravel Web Service
   - type: web
-    name: my-laravel-app
+    name: kitarcycle-web # You can change this name
     env: docker
-    repo: https://github.com/Xinyun00/kitarcycle_web.git # Replace with your repo URL
-    region: singapore # Choose a region close to you
-    plan: free # Or your desired plan
+    repo: https://github.com/Xinyun00/kitarcycle_web.git
+    branch: main
+    region: singapore # Or your preferred region
+    plan: free # Note: Free plan instances spin down after inactivity
     healthCheckPath: /
     envVars:
       - key: APP_URL
         value: https://${RENDER_EXTERNAL_URL}
       - key: APP_KEY
-        generateValue: true
+        generateValue: true # Render will generate a secure key
       - key: APP_ENV
         value: production
+      - key: APP_DEBUG
+        value: false
+      - key: LOG_CHANNEL
+        value: stderr
       - key: DB_CONNECTION
         value: pgsql
       - key: DB_HOST
         fromService:
           type: pserv
-          name: my-laravel-db
+          name: kitarcycle-db
           property: host
       - key: DB_PORT
         fromService:
           type: pserv
-          name: my-laravel-db
+          name: kitarcycle-db
           property: port
       - key: DB_DATABASE
         fromService:
           type: pserv
-          name: my-laravel-db
+          name: kitarcycle-db
           property: database
       - key: DB_USERNAME
         fromService:
           type: pserv
-          name: my-laravel-db
+          name: kitarcycle-db
           property: user
       - key: DB_PASSWORD
         fromService:
           type: pserv
-          name: my-laravel-db
+          name: kitarcycle-db
           property: password
-  - type: pserv
-    name: my-laravel-db
-    env: postgres
-    plan: free # Or your desired plan
-    region: singapore
-    disk:
-      name: postgres-data
-      sizeGB: 1
+
+  # Your PostgreSQL Database Service
+  - type: pserv # 'pserv' is the correct type for a PostgreSQL service
+    name: kitarcycle-db # Use this name in the envVars above
+    region: singapore # Match the region of your web service
+    plan: free # Free tier for PostgreSQL
+    postgresMajorVersion: 14 # Specify a version
