@@ -14,7 +14,7 @@ class WasteClassificationService
     {
         // IMPORTANT: Update this URL with your current ngrok URL from Google Colab
         // The URL changes each time you restart the Colab notebook
-        $this->apiUrl = 'https://Sherine99-recyclable.hf.space/classify';
+        $this->apiUrl = 'https://Sherine99-recyclablewaste.hf.space/classify';
     }
 
     public function classifyWaste(UploadedFile $image)
