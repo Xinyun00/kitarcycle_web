@@ -1,0 +1,50 @@
+services:
+  - type: web
+    name: my-laravel-app
+    env: docker
+    repo: https://github.com/your-username/your-laravel-repo.git # Replace with your repo URL
+    region: singapore # Choose a region close to you
+    plan: free # Or your desired plan
+    healthCheckPath: /
+    envVars:
+      - key: APP_URL
+        value: https://${RENDER_EXTERNAL_URL}
+      - key: APP_KEY
+        generateValue: true
+      - key: APP_ENV
+        value: production
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        fromService:
+          type: pserv
+          name: my-laravel-db
+          property: host
+      - key: DB_PORT
+        fromService:
+          type: pserv
+          name: my-laravel-db
+          property: port
+      - key: DB_DATABASE
+        fromService:
+          type: pserv
+          name: my-laravel-db
+          property: database
+      - key: DB_USERNAME
+        fromService:
+          type: pserv
+          name: my-laravel-db
+          property: user
+      - key: DB_PASSWORD
+        fromService:
+          type: pserv
+          name: my-laravel-db
+          property: password
+  - type: pserv
+    name: my-laravel-db
+    env: postgres
+    plan: free # Or your desired plan
+    region: singapore
+    disk:
+      name: postgres-data
+      sizeGB: 1
