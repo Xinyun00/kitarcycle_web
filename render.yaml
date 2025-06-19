@@ -52,4 +52,5 @@ services:
     name: kitarcycle-db # Use this name in the envVars above
     region: singapore # Match the region of your web service
     plan: free # Free tier for PostgreSQL
-    image: 'postgres:14' # Specify a version
+    image:
+      url: 'postgres:14' # Specify a version
