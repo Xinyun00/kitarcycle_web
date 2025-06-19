@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Models\Event;
+use App\Models\Pickup;
 use App\Services\CalendarService;
 use App\Observers\EventObserver;
 use App\Services\FirebaseNotificationService;
