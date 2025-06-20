@@ -1,24 +1,28 @@
-# Use a standard, trusted image for Nginx and PHP
-FROM richarvey/nginx-php-fpm:latest
+FROM php:8.1-fpm
 
-# Set the working directory inside the container
-WORKDIR /var/www/html
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    nginx \
+    zip unzip curl git \
+    libpng-dev libjpeg-dev libfreetype6-dev \
+    libonig-dev libxml2-dev \
+    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
-# Copy all your application files from the repo into the container
-COPY . .
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Install your Laravel project's dependencies
-# --no-dev: Don't install development packages
-# --optimize-autoloader: Build a faster class autoloader for production
-RUN composer install --no-interaction --no-dev --optimize-autoloader
+# Add Laravel source
+COPY . /var/www
+WORKDIR /var/www
 
-# Set the correct permissions for Laravel's storage and cache directories
-# This allows the web server to write logs and cache files
-RUN chown -R www-data:www-data storage bootstrap/cache
-RUN chmod -R 775 storage bootstrap/cache
+# Set permissions
+RUN chown -R www-data:www-data /var/www && chmod -R 755 /var/www
 
-# Expose port 80 to the outside world
+# Copy NGINX config
+COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
+
+# Expose port 80
 EXPOSE 80
 
-# The command to start the Nginx server when the container runs
-CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
+# Start both php-fpm and nginx
+CMD service php8.1-fpm start && nginx -g "daemon off;"
