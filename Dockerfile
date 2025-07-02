@@ -22,11 +22,14 @@ WORKDIR /var/www
 # Copy existing application directory contents
 COPY . /var/www
 
-# Give permissions
+# Create the storage symlink for Laravel
+RUN ln -s /var/www/storage/app/public /var/www/public/storage
+
+# Set permissions for Laravel
 RUN chown -R www-data:www-data /var/www
 
-# Expose port
+# Expose PHP-FPM port
 EXPOSE 9000
 
-# Start php-fpm
+# Start PHP-FPM server
 CMD ["php-fpm"]
